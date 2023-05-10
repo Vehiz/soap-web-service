@@ -1,5 +1,5 @@
 import express from "express";
-import xml2js,{ parseString } from "xml2js";
+import xml2js, { parseString } from "xml2js";
 import axios from "axios";
 
 export const getAllCountry = async (req, res) => {
@@ -22,10 +22,12 @@ export const getAllCountry = async (req, res) => {
     );
     parser.parseString(response.data, (err, result) => {
       if (err) throw err;
-      
+
       // to print out just the country names
-      
-      const countries = result["soap:Envelope"]["soap:Body"]["m:ListOfCountryNamesByNameResponse"];
+
+      const countries =
+        result["soap:Envelope"]["soap:Body"]["m:ListOfCountryNamesByNameResponse"]
+          ["m:ListOfCountryNamesByNameResult"]["m:tCountryCodeAndName"];
       res.json({
         message: "list of countries Retrived Successfully",
         countries,
@@ -67,7 +69,9 @@ export const getCountryCapital = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
       } else {
         const capital =
-          result["soap:Envelope"]["soap:Body"][0]["m:CapitalCityResponse"][0]["m:CapitalCityResult"][0];
+          result["soap:Envelope"]["soap:Body"][0]["m:CapitalCityResponse"][0][
+            "m:CapitalCityResult"
+          ][0];
         res.status(200).json({ capital });
       }
     });
@@ -107,7 +111,9 @@ export const getCountryCurrency = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
       } else {
         const currency =
-          result["soap:Envelope"]["soap:Body"][0]["m:CountryCurrencyResponse"][0]["m:CountryCurrencyResult"][0];
+          result["soap:Envelope"]["soap:Body"][0][
+            "m:CountryCurrencyResponse"
+          ][0]["m:CountryCurrencyResult"][0];
         res.status(200).json({ currency });
       }
     });
@@ -147,7 +153,9 @@ export const getCountryFlag = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
       } else {
         const flag =
-          result["soap:Envelope"]["soap:Body"][0]["m:CountryFlagResponse"][0]["m:CountryFlagResult"][0];
+          result["soap:Envelope"]["soap:Body"][0]["m:CountryFlagResponse"][0][
+            "m:CountryFlagResult"
+          ][0];
         res.status(200).json({ flag });
       }
     });
@@ -187,7 +195,9 @@ export const getCountryPhoneCode = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
       } else {
         const phoneCode =
-          result["soap:Envelope"]["soap:Body"][0]["m:CountryIntPhoneCodeResponse"][0]["m:CountryIntPhoneCodeResult"][0];
+          result["soap:Envelope"]["soap:Body"][0][
+            "m:CountryIntPhoneCodeResponse"
+          ][0]["m:CountryIntPhoneCodeResult"][0];
         res.status(200).json({ phoneCode });
       }
     });
@@ -196,4 +206,3 @@ export const getCountryPhoneCode = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
